@@ -9,12 +9,15 @@ This project is a work in progress (WIP)🚧. More tools, features, and producti
 At this point, it's primarily intended as a developer setup. Get ready to unleash your creativity and productivity with FrankenPHP Project (Viktor)! 💻✨
 
 ### Getting Started
+
 To get started with `viktor-docker`, follow these simple steps:
 
-- download the repo 
-- create `.env`
-- `docker-compose up -d`
-- start your amazing idea
+- ~~download the repo~~ 
+- ~~create `.env`~~
+- ~~`docker-compose up -d`~~
+- ~~start your amazing idea~~~
+
+__*update:*__ please see [Use as Submodule](/docs/submodule.md), for the best experience.
 
 
 ### But wait, there is more
@@ -22,4 +25,12 @@ To get started with `viktor-docker`, follow these simple steps:
 - [Quick Start](/docs/quick-start.md)
 - [Use as Submodule](/docs/submodule.md)
 - [install Laravel](/docs/laravel.md)
-- [more Tools](/docs/submodule.md)
+- [install BroadCasting for Laravel](/docs/laravel-broadcasting.md)
+- [more Tools](/docs/tools.md)
+
+
+### Next Steps
+
+- 💻 Building a CLI: Say Goodbye to Lengthy Bash Lines
+- 🔧 Custom Build Options: packages, php extension
+- 🌐 Caddy Setup: Custom extension and Caddyfile

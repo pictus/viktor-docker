@@ -5,6 +5,8 @@ To install Laravel automatically and copy it into your project repository, run t
 
 **NOTE!** Make sure that in `./viktor/.env`, `DC_APP_DIR` is set to `../` See [submodule](/submodule.md) for more information.
 
+> *UPDATE*: the `example.env` is now prepared for `submodule mode`
+
 ```bash
 ./viktor/bin/exec.sh ./viktor/bin/d/install-laravel.sh
 ```
