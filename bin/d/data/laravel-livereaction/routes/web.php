@@ -1,7 +1,7 @@
 <?php 
 
 use Illuminate\Support\Facades\Route;
-use Gezeichnet\LaravelLiveReaction\Events\LiveReaction;
+use Pictus\LaravelLiveReaction\Events\LiveReaction;
 
 Route::get('/live-reaction/', function() {
     return view('live-reaction::live-reaction-demo');

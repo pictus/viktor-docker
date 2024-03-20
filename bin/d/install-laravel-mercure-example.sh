@@ -2,13 +2,7 @@
 
 
 mkdir -p vendor_local/pictus
-
-
-# cd ../
-
-# composer create-project --prefer-dist laravel/laravel laravel
-# cd laravel
-# mv .env .env-laravel
-# cd ..
-# mv app/public app/public_org
-# cp -ra laravel/. app/
+cp -r viktor/bin/d/data/laravel-livereaction/ vendor_local/pictus/
+composer config repositories.pictus-laravel-mercure-example '{"type": "path", "url": "vendor_local/pictus/laravel-livereaction", "options": {"symlink": true}}'
+composer require pictus/laravel-livereaction @dev
+php artisan cache:clear
