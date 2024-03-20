@@ -1,6 +1,6 @@
 ### Interacting with the Container
 
-`frankenphp-project` provides a few tools to interact with the container. Please note that you may need to adjust `DC_DOCKERFILE` and `DC_CONTAINER` in `./viktor/.env` as necessary.
+`viktor-docker` provides a few tools to interact with the container. Please note that you may need to adjust `DC_DOCKERFILE` and `DC_CONTAINER` in `./viktor/.env` as necessary.
 
 #### Structure
 - `./viktor/bin/`

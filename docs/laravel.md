@@ -1,5 +1,5 @@
 ## Installing Laravel
-After starting the container, you can directly install the latest version of [Laravel](https://laravel.com). But be careful, when installing Laravel, you must use `frankenphp-project (Viktor)` in a subdirectory of your project. See submodule for more information.
+After starting the container, you can directly install the latest version of [Laravel](https://laravel.com). But be careful, when installing Laravel, you must use `viktor-docker` in a subdirectory of your project. See submodule for more information.
 
 To install Laravel automatically and copy it into your project repository, run the following command:
 

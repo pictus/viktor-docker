@@ -1,4 +1,4 @@
-Welcome to `frankenphp-project` / i-should-have-call-it-viktor, a quickstarter for [FrankenPHP](https://frankenphp.dev) for your next amazing project. It takes away the tedious work of setting up Docker and saves you time. Simply include this repository in your project and start working on your amazing idea.
+Welcome to `viktor-docker`, a quickstarter for [FrankenPHP](https://frankenphp.dev) for your next amazing project. It takes away the tedious work of setting up Docker and saves you time. Simply include this repository in your project and start working on your amazing idea.
 
 - 🐳 Easy Docker setup for PHP projects
 - ⏰ Saves time by providing helpful utilities
@@ -9,7 +9,7 @@ This project is a work in progress (WIP)🚧. More tools, features, and producti
 At this point, it's primarily intended as a developer setup. Get ready to unleash your creativity and productivity with FrankenPHP Project (Viktor)! 💻✨
 
 ### Getting Started
-To get started with `frankenphp-project`, follow these simple steps:
+To get started with `viktor-docker`, follow these simple steps:
 
 - download the repo 
 - create `.env`
