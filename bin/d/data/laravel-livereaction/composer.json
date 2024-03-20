@@ -1,0 +1,27 @@
+{
+    "name": "pictus/laravel-livereaction",
+    "description": "Live Reactions Demo",
+    "keywords": ["laravel", "demo"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Sommer",
+            "email": "gezeichnet@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Pictus\\LaravelLiveReaction\\": "src/"
+
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": false,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Pictus\\LaravelLiveReaction\\ServiceProvider"
+            ]
+        }
+    }
+}
