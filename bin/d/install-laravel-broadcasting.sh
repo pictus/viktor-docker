@@ -27,6 +27,4 @@ sed -i 's/^\(QUEUE_CONNECTION=\).*/\1sync/' .env
 # ]
 sed -i "/'connections' => \[/a \\\n        'mercure' => ['driver'=>'mercure','url'=>env('MERCURE_URL', '/.well-known/mercure'),'secret' => env('MERCURE_SECRET', 'aVerySecretKey')]," config/broadcasting.php
 
-mv routes/channels.php routes/_channels.php
-echo "# file was renamed by viktor, mercure package throws error in laravel 11 app, need to digg in deeper" >> routes/channels.php
 php artisan cache:clear
