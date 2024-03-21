@@ -1,42 +1,23 @@
+import {defaultConfig } from '../enviroment.js'
 import crypto from 'crypto';
 
 const randomKey = (length) => crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
 
-// where is the viktor directory relative to your project root (viktor_root)
-// how to find project root from viktor directory relative to viktor (app_dir)
+export const setupQuestions1 = [
+    {
+        type: 'input',
+        name: 'DC_VIKTOR_ROOT',
+        message: 'viktor directory relative to your app root path',
+        default: defaultConfig.DC_VICTOR_ROOT,
 
-// where is your docker-compose file located (dc_dockerfile)
-    // how is your frankenphp service called in dockerfile
-// port 80
-// port 443
-// server_name
+        validate() {
+            // check if directory exists
+            return true;
+        }
+    }
+];
 
-// install mercure
-// key
-
-// tools - install framework
-    // laravel?
-        // broadcasting?
-        // example?
-
-// make viktor avail in project dir?
-const defaultConfig = {
-    DC_APP_DIR: '../',
-    DC_VICTOR_ROOT: './viktor/',
-    DC_DOCKERFILE: 'viktor/docker-compose.yml',
-    DC_CONTAINER: 'server',
-    DC_SERVER_PORT_UNSECURE: 8080,
-    DC_SERVER_PORT_SECURE: 4443,
-    DC_SERVER_NAME: 'localhost',
-    DC_INSTALL_MERCURE: 1,
-    DC_MERCURE_PUBLISHER_JWT_KEY: randomKey(40),
-    DC_MERCURE_SUBSCRIBER_JWT_KEY: '', // gets same value as DC_MERCURE_PUBLISHER_JWT_KEY in post processing
-    // for internal usage in the prompts    
-    INT_PORTS: true,
-}
-
-
-export const setupGuide = [
+export const setupQuestions = [
     {
         type: 'input',
         name: 'DC_VIKTOR_ROOT',
@@ -126,7 +107,7 @@ export const setupGuide = [
     {
         type: 'input',
         name: 'DC_MERCURE_PUBLISHER_JWT_KEY',
-        default: defaultConfig.DC_MERCURE_PUBLISHER_JWT_KEY,
+        default: randomKey(32),
         message: 'Mercure JWT Keys',
         when(answers) {
             return answers.DC_INSTALL_MERCURE === 1;

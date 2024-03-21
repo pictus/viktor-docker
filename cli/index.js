@@ -1,4 +1,12 @@
+
+
 import yargs from 'yargs/yargs';
+import inquirer from 'inquirer';
+import { setupGuide, writeSetupEnviromentFile, parseConfigToEnv } from './src/setup/setupGuide.js'
+import { confirmPrompt } from './src/prompt/utils.js';
+import { DockerComposeInteract } from './src/docker/interact.js';
+
+
 
 /*
     options
@@ -27,16 +35,7 @@ import yargs from 'yargs/yargs';
 
 */
 
-/**
- * Pizza delivery prompt example
- * run example by writing `node pizza.js` in your console
- */
-
-import inquirer from 'inquirer';
-import { setupGuide } from './src/setup-guide.js';
-
-
-console.log('Hi, welcome to Node Pizza');
+console.log('as');
 
 const questions = [
   {
@@ -125,53 +124,75 @@ const questions = [
   },
 ];
 
-
-
-
-
-
-
 yargs(process.argv.slice(2))
-.scriptName('viktor')
-.usage('$0 <cmd> [args]')
+    .scriptName('viktor')
+    .usage('$0 <cmd> [args]')
+    .command(
+        'setup', 'setup victor project',
+        (yargs) => {},
+        async (argv) => {
+            const enviroment = await setupGuide();
 
-.command(
-    'setup', 'setup victor project',
-    (yargs) => {
-        // run a configuration
-    },
-    (argv) => {
-        inquirer.prompt(setupGuide).then((answers) => {
-            console.log(JSON.stringify(answers, null, '  '));
+            Object.keys(enviroment).forEach(key => {
+                if(key.includes('INT_')) {
+                    delete enviroment[key];
+                }
+            });
 
-            // show all config values (post processed)
-            // ask if correct -> new inquirer 
-            // -> write .env file
+            console.log('----------------------------------------------');
+            console.log('this is your configuratoin it will be stored');
+            console.log('in <.env-directory> are these settings ok?');
 
-            // beim ersten run, diese fragen gleich mitstellen
-            // ansonsten eine -option zur verfügung stellen
-            // um diese sachen abzufragen (--tools?)
-            // want to start the server?
-            // want to install framework?
-            // want to install broadcasting?
-            // want to install example plugin?
-        });
-    },
-)
-/*
-.command(
-    'hello [name]', 'welcome ter yargs!', 
-    (yargs) => {
-        yargs.positional('name', {
-            type: 'string',
-            default: 'Cambi',
-            describe: 'the name to say hello to'
-        });
-    }, 
-    (argv) => {
-        console.log('hello', argv.name, 'welcome to yargs!')
-    }
+            console.log(parseConfigToEnv(enviroment));
+            
+            const confirm = await confirmPrompt('Are thes Settings Ok?');
+
+            if(!confirm) {
+                console.log('TODO: not confirmed, start over or stop');
+            }
+            const envPath = './my-env1.env';
+
+            writeSetupEnviromentFile(enviroment, envPath);
+            
+            console.log('----------------------------------------------');
+            console.log('your .env file is setup at <env-path>, now run the container');
+            console.log('now start the container.. `viktor docker up`');
+        },
+    )
+    .command(
+        'd [option]', 'interact with docker enviroment',
+        () => {},
+        (args) => {
+            console.log('[viktor interact with docker]', args);
+
+            if(!args.option) {
+                console.warn('no option set, use `up`, `down`, `exec`');
+            }
+
+            if(args.option === 'up') { new DockerComposeInteract().up();}
+            if(args.option === 'down') { new DockerComposeInteract().down();}
+            if(args.option === 'exec') { 
+                args._.shift();
+                console.log(args._);
+
+                new DockerComposeInteract().exec(args._.join(' '));
+            }
+
+        },
+    )
+
+    .command(
+'hello [name]', 'welcome ter yargs!', 
+(yargs) => {
+yargs.positional('name', {
+type: 'string',
+default: 'Cambi',
+describe: 'the name to say hello to'
+});
+}, 
+(argv) => {
+console.log('hello', argv.name, 'welcome to yargs!')
+}
 )
 .help()
 .argv
-*/
