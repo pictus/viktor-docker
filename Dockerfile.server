@@ -15,7 +15,9 @@ ENV SERVER_NAME=${SERV_NAME}
 # Tools
 #
 RUN apt-get update && \
-    apt-get -y install git 7zip zip
+    apt-get -y install git 7zip zip && \
+    apt-get -y install supervisor
+
 
 #
 # Setup Caddy
@@ -49,5 +51,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/local/bin/composer
 
+COPY ${DC_VICTOR_ROOT}data/laravel-worker.conf /etc/supervisor/conf.d/supervisord.conf
+
 # workermode: for sometime later
 # ENV FRANKENPHP_CONFIG="worker /app/public/index.php"
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
