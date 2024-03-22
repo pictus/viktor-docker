@@ -1,13 +1,7 @@
 FROM dunglas/frankenphp
 
-# Install Laravel: 1 for yes
-# ARG INSTALL_LARAVEL
 ARG SERV_NAME
 
-ARG MERCURE_PUBLISHER_KEY
-ARG MERCURE_SUBSCRIBER_KEY
-ENV MERCURE_PUBLISHER_JWT_KEY=${MERCURE_PUBLISHER_KEY}
-ENV MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_SUBSCRIBER_KEY}
 
 ENV SERVER_NAME=${SERV_NAME}
 
@@ -15,18 +9,7 @@ ENV SERVER_NAME=${SERV_NAME}
 # Tools
 #
 RUN apt-get update && \
-    apt-get -y install git 7zip zip && \
-    apt-get -y install supervisor
-
-
-#
-# Setup Caddy
-#
-# requires: 
-# MERCURE_PUBLISHER_JWT_KEY
-# MERCURE_SUBSCRIBER_JWT_KEY
-#
-COPY ./data/Caddyfile /etc/caddy/Caddyfile
+    apt-get -y install git 7zip zip supervisor
 
 # 
 # Setup PHP
@@ -38,9 +21,23 @@ RUN install-php-extensions \
     zip \
     opcache
 
-COPY ./data/php.ini /php-project.ini
+RUN mkdir -p /temp_data/
+
+ARG DC_VICTOR_ROOT
+
+COPY ${DC_VICTOR_ROOT}data/php.ini /php-project.ini
 RUN cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 RUN mv /php-project.ini $PHP_INI_DIR/conf.d/project-php.ini
+
+#
+# Setup Caddy
+#
+ARG MERCURE_PUBLISHER_KEY
+ARG MERCURE_SUBSCRIBER_KEY
+ENV MERCURE_PUBLISHER_JWT_KEY=${MERCURE_PUBLISHER_KEY}
+ENV MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_SUBSCRIBER_KEY}
+
+COPY ${DC_VICTOR_ROOT}data/Caddyfile /etc/caddy/Caddyfile
 
 #
 # composer
@@ -51,8 +48,10 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/local/bin/composer
 
-COPY ${DC_VICTOR_ROOT}data/laravel-worker.conf /etc/supervisor/conf.d/supervisord.conf
-
+RUN ls && ls && ls && pwd && ls && pwd
+COPY ${DC_VICTOR_ROOT}data/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
+COPY ${DC_VICTOR_ROOT}entry.sh /entry.sh
 # workermode: for sometime later
 # ENV FRANKENPHP_CONFIG="worker /app/public/index.php"
-ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT ["../entry.sh", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
