@@ -163,6 +163,7 @@ yargs(process.argv.slice(2))
         'd [option]', 'interact with docker enviroment',
         () => {},
         (args) => {
+            // TODO search for .env file
             console.log('[viktor interact with docker]', args);
 
             if(!args.option) {
@@ -177,7 +178,6 @@ yargs(process.argv.slice(2))
 
                 new DockerComposeInteract().exec(args._.join(' '));
             }
-
         },
     )
 
