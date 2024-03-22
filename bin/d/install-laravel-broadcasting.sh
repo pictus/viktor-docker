@@ -16,7 +16,7 @@ echo "MERCURE_URL=https://localhost:443/.well-known/mercure" >> .env
 # set BROADCAST_CONNECTION to mercure
 sed -i 's/^\(BROADCAST_CONNECTION=\).*/\1mercure/' .env
 # set QUEUE_CONNECTION to sync
-sed -i 's/^\(QUEUE_CONNECTION=\).*/\1sync/' .env
+# sed -i 's/^\(QUEUE_CONNECTION=\).*/\1sync/' .env
 # setup config/broadcasting.php
 # 'connections' => [
 #     'mercure' => [
@@ -28,3 +28,4 @@ sed -i 's/^\(QUEUE_CONNECTION=\).*/\1sync/' .env
 sed -i "/'connections' => \[/a \\\n        'mercure' => ['driver'=>'mercure','url'=>env('MERCURE_URL', '/.well-known/mercure'),'secret' => env('MERCURE_SECRET', 'aVerySecretKey')]," config/broadcasting.php
 
 php artisan cache:clear
+php artisan optimize:clear

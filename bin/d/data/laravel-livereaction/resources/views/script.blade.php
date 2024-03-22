@@ -24,8 +24,16 @@ liveReaction = () => ({
     live: {},
     // messageDelay timeout reached
     messageTimeout: false,
+    workerMessage: null,
 
     init() {
+        ssr('workerMessage', (input) => {
+            if(!input.data || !input.data.content) return;
+            this.workerMessage = input.data.content;
+
+            window.setTimeout(() => { this.workerMessage = null; }, this.config.delayRemove);
+        });
+
         ssr('liveReaction', (input) => {
             if(!input.data || !input.data.content) return;
             
@@ -50,6 +58,17 @@ liveReaction = () => ({
         if(!this.live[key]) return [];
 
         return this.live[key];
+    },
+
+    runWorker() {
+        alert('Server runs a job, when job is executed, you get a Message, Note: server delays message for some seconds');
+        fetch('/run-job/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'accepts': 'application/json',
+            }
+        });
     },
 
     sendMessage(message, token) {
