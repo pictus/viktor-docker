@@ -1,5 +1,3 @@
-
-
 import yargs from 'yargs/yargs';
 import inquirer from 'inquirer';
 import { setupGuide, writeSetupEnviromentFile, parseConfigToEnv } from './src/setup/setupGuide.js'
@@ -35,7 +33,7 @@ import { DockerComposeInteract } from './src/docker/interact.js';
 
 */
 
-console.log('as');
+console.log('starting: ....', "\n");
 
 const questions = [
   {
@@ -131,8 +129,11 @@ yargs(process.argv.slice(2))
         'setup', 'setup victor project',
         (yargs) => {},
         async (argv) => {
-            const enviroment = await setupGuide();
 
+            let enviroment = Object.assign({
+              '# viktor setup': '',
+            }, await setupGuide());
+            
             Object.keys(enviroment).forEach(key => {
                 if(key.includes('INT_')) {
                     delete enviroment[key];
@@ -142,7 +143,6 @@ yargs(process.argv.slice(2))
             console.log('----------------------------------------------');
             console.log('this is your configuratoin it will be stored');
             console.log('in <.env-directory> are these settings ok?');
-
             console.log(parseConfigToEnv(enviroment));
             
             const confirm = await confirmPrompt('Are thes Settings Ok?');
@@ -151,7 +151,6 @@ yargs(process.argv.slice(2))
                 console.log('TODO: not confirmed, start over or stop');
             }
             const envPath = './my-env1.env';
-
             writeSetupEnviromentFile(enviroment, envPath);
             
             console.log('----------------------------------------------');
@@ -182,17 +181,17 @@ yargs(process.argv.slice(2))
     )
 
     .command(
-'hello [name]', 'welcome ter yargs!', 
-(yargs) => {
-yargs.positional('name', {
-type: 'string',
-default: 'Cambi',
-describe: 'the name to say hello to'
-});
-}, 
-(argv) => {
-console.log('hello', argv.name, 'welcome to yargs!')
-}
+      'hello [name]', 'welcome ter yargs!', 
+      (yargs) => {
+      yargs.positional('name', {
+      type: 'string',
+      default: 'Cambi',
+      describe: 'the name to say hello to'
+      });
+      }, 
+      (argv) => {
+      console.log('hello', argv.name, 'welcome to yargs!')
+      }
 )
 .help()
 .argv

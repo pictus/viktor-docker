@@ -1,5 +1,6 @@
 import {defaultConfig } from '../enviroment.js'
 import crypto from 'crypto';
+import { promptObject } from '../prompt/utils.js';
 
 const randomKey = (length) => crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
 
@@ -59,18 +60,11 @@ export const setupQuestions = [
         message: 'frankenphp container name, to access via cli',
         default: defaultConfig.DC_CONTAINER
     },
-    {
-        type: 'list',
-        name: 'INT_PORTS',
-        default: defaultConfig.INT_PORTS,
-        choices: ['yes', 'no'],
-        // todo: bisschen chalk
-        message: `Are these Ports Ok? http: ${defaultConfig.DC_SERVER_PORT_UNSECURE}, https: ${defaultConfig.DC_SERVER_PORT_SECURE}`,
-        filter(val) {
-            return val === 'yes'; 
-        }
-    }, 
-    {
+    promptObject(
+        'INT_PORTS', 
+        `Are these Ports Ok? http: ${defaultConfig.DC_SERVER_PORT_UNSECURE}, https: ${defaultConfig.DC_SERVER_PORT_SECURE}`
+    ),
+    /* only INI_PORTS: false*/ {
         type: 'number',
         name: 'DC_SERVER_PORT_UNSECURE',
         default: defaultConfig.DC_SERVER_PORT_UNSECURE,
@@ -79,7 +73,7 @@ export const setupQuestions = [
             return answers.INT_PORTS === false;
         }
     },
-    {
+    /* only INI_PORTS: false*/ {
         type: 'number',
         name: 'DC_SERVER_PORT_SECURE',
         default: defaultConfig.DC_SERVER_PORT_SECURE,
@@ -93,16 +87,6 @@ export const setupQuestions = [
         name: 'DC_SERVER_NAME',
         default: defaultConfig.DC_SERVER_NAME,
         message: 'Servername',
-    },
-    {
-        type: 'list',
-        name: 'DC_INSTALL_MERCURE',
-        default: defaultConfig.DC_INSTALL_MERCURE === 1 ? 'yes' : 'no',
-        message: 'Install mercure.hub?',
-        choices: ['yes', 'no'],
-        filter(val) {
-            return val === 'yes';
-        }
     },
     {
         type: 'input',

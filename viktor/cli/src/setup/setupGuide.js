@@ -9,8 +9,13 @@ export async function setupGuide() {
 
 export function parseConfigToEnv(config) {
     let data = '';
+    let val = '';
+    
     for(let key in config) {
-        data += `${key}=${config[key]}\n`
+        if(key.substring(0,1) != '#') {
+            val = `=${config[key]}`;
+        }
+        data += `${key}${val}\n`
     }
     return data;
 }
