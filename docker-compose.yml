@@ -6,14 +6,14 @@ services:
     container_name: "frankenserver"
     tty: true
     build:
-      dockerfile: "${DC_VICTOR_ROOT-./}Dockerfile.server"
+      dockerfile: "${DC_VIKTOR_ROOT-./}Dockerfile.server"
       context: ${DC_APP_DIR-../}
       args:
         SERV_NAME: ${DC_SERVER_NAME-localhost}
         MERCURE_PUBLISHER_KEY: ${DC_MERCURE_PUBLISHER_JWT_KEY}
         MERCURE_SUBSCRIBER_KEY: ${DC_MERCURE_SUBSCRIBER_JWT_KEY}
         DC_INSTALL_MERCURE: ${DC_INSTALL_MERCURE-1}
-        DC_VICTOR_ROOT: ${DC_VICTOR_ROOT-./}
+        DC_VIKTOR_ROOT: ${DC_VIKTOR_ROOT-./}
     ports:
       - "8080:80"
       - "4443:443"

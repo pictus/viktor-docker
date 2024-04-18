@@ -15,6 +15,9 @@
                     class="video-container__video"
                 ></video>
                 <div class="live-reaction" x-data="liveReaction()">
+                    <div x-show="workerMessage" class="reaction__worker">
+                        <span x-text="workerMessage"></span>
+                    </div>
                     <template x-for="reaction in config.reactions">
                         <div class="live-reaction__reaction">
                             <div class="effect">
@@ -25,6 +28,7 @@
                             <button class="button" x-on:click="sendMessage(reaction, '{{ csrf_token() }}')" x-text="reaction"></button>
                         </div>
                     </template>
+                    <button class="button button-alt" x-on:click="runWorker('{{ csrf_token() }}')">run Worker</button>
                 </div>
             </div>
         </div>

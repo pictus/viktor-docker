@@ -2,10 +2,6 @@ FROM dunglas/frankenphp
 
 ARG SERV_NAME
 
-ARG MERCURE_PUBLISHER_KEY
-ARG MERCURE_SUBSCRIBER_KEY
-ENV MERCURE_PUBLISHER_JWT_KEY=${MERCURE_PUBLISHER_KEY}
-ENV MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_SUBSCRIBER_KEY}
 
 ENV SERVER_NAME=${SERV_NAME}
 
@@ -13,13 +9,7 @@ ENV SERVER_NAME=${SERV_NAME}
 # Tools
 #
 RUN apt-get update && \
-    apt-get -y install git 7zip zip
-
-#
-# Create temp_data dir
-# copy conditional files in here and copy them if conditions succeed
-#
-RUN mkdir -p temp_data
+    apt-get -y install git 7zip zip supervisor
 
 # 
 # Setup PHP
@@ -31,12 +21,11 @@ RUN install-php-extensions \
     zip \
     opcache
 
-ARG DC_VICTOR_ROOT
-ARG MERCURE_SUBSCRIBER_KEY
-ENV MERCURE_PUBLISHER_JWT_KEY=${MERCURE_PUBLISHER_KEY}
-ENV MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_SUBSCRIBER_KEY}
+RUN mkdir -p /temp_data/
 
-COPY ${DC_VICTOR_ROOT}data/php.ini /php-project.ini
+ARG DC_VIKTOR_ROOT
+
+COPY ${DC_VIKTOR_ROOT}data/php.ini /php-project.ini
 RUN cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 RUN mv /php-project.ini $PHP_INI_DIR/conf.d/project-php.ini
 
@@ -48,12 +37,17 @@ RUN mv /php-project.ini $PHP_INI_DIR/conf.d/project-php.ini
 # need to check from time to time, if something changes
 # maybe find a better solution
 #
-# requires: 
-# MERCURE_PUBLISHER_JWT_KEY
-# MERCURE_SUBSCRIBER_JWT_KEY
-#
 ARG DC_INSTALL_MERCURE
-COPY ${DC_VICTOR_ROOT}data/Caddyfile /temp_data/
+
+ARG MERCURE_PUBLISHER_KEY
+ARG MERCURE_SUBSCRIBER_KEY
+
+ENV MERCURE_PUBLISHER_JWT_KEY=${MERCURE_PUBLISHER_KEY}
+ENV MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_SUBSCRIBER_KEY}
+
+COPY ${DC_VIKTOR_ROOT}data/Caddyfile /etc/caddy/Caddyfile
+
+COPY ${DC_VIKTOR_ROOT}data/Caddyfile /temp_data/
 RUN if [ "$DC_INSTALL_MERCURE" = "1" ]; then \
     cp /temp_data/Caddyfile /etc/caddy/Caddyfile \
 ;fi
@@ -67,5 +61,10 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/local/bin/composer
 
+RUN ls && ls && ls && pwd && ls && pwd
+COPY ${DC_VIKTOR_ROOT}data/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
+COPY ${DC_VIKTOR_ROOT}entry.sh /entry.sh
 # workermode: for sometime later
 # ENV FRANKENPHP_CONFIG="worker /app/public/index.php"
+# ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT ["../entry.sh", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
