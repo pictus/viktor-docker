@@ -1,11 +1,15 @@
 import yargs from 'yargs/yargs';
 import inquirer from 'inquirer';
-import { setupGuide, writeSetupEnviromentFile, parseConfigToEnv } from './src/setup/setupGuide.js'
+import { setupGuide, writeSetupEnviromentFile, parseConfigToEnv, runSetup } from './src/setup/setupGuide.js'
 import { confirmPrompt } from './src/prompt/utils.js';
 import { DockerComposeInteract } from './src/docker/interact.js';
+import dotenv from "dotenv";
+import fs from "fs";
+import { UpCommand } from './src/addons/docker/UpCommand.js';
+import { DownCommand } from './src/addons/docker/DownCommand.js';
+import { ExecCommand } from './src/addons/docker/ExecCommand.js';
 
-
-
+// process.env, 
 /*
     options
         -e  --env  for .env file
@@ -33,7 +37,8 @@ import { DockerComposeInteract } from './src/docker/interact.js';
 
 */
 
-console.log('starting: ....', "\n");
+
+
 
 const questions = [
   {
@@ -122,76 +127,44 @@ const questions = [
   },
 ];
 
-yargs(process.argv.slice(2))
+const plugins = [
+  new UpCommand(),
+  new DownCommand(),
+  new ExecCommand(),
+];
+
+const commands = yargs(process.argv.slice(2))
     .scriptName('viktor')
     .usage('$0 <cmd> [args]')
     .command(
-        'setup', 'setup victor project',
+        'init', 'init victor project',
         (yargs) => {},
-        async (argv) => {
+        async (argv) => { runSetup() },
+    );
 
-            let enviroment = Object.assign({
-              '# viktor setup': '',
-            }, await setupGuide());
-            
-            Object.keys(enviroment).forEach(key => {
-                if(key.includes('INT_')) {
-                    delete enviroment[key];
-                }
-            });
+plugins.forEach((plugin) => {
+  commands.command(
+    plugin.title,
+    plugin.description,
+    (yargs) => { plugin.builderCallback(yargs) },
+    async (argv) => { plugin.handler(argv) }
+  )
+})
 
-            console.log('----------------------------------------------');
-            console.log('this is your configuratoin it will be stored');
-            console.log('in <.env-directory> are these settings ok?');
-            console.log(parseConfigToEnv(enviroment));
-            
-            const confirm = await confirmPrompt('Are thes Settings Ok?');
+commands.help()
+commands.argv
 
-            if(!confirm) {
-                console.log('TODO: not confirmed, start over or stop');
-            }
-            const envPath = './my-env1.env';
-            writeSetupEnviromentFile(enviroment, envPath);
-            
-            console.log('----------------------------------------------');
-            console.log('your .env file is setup at <env-path>, now run the container');
-            console.log('now start the container.. `viktor docker up`');
-        },
-    )
-    .command(
-        'd [option]', 'interact with docker enviroment',
-        () => {},
-        (args) => {
-            // TODO search for .env file
-            console.log('[viktor interact with docker]', args);
 
-            if(!args.option) {
-                console.warn('no option set, use `up`, `down`, `exec`');
-            }
-
-            if(args.option === 'up') { new DockerComposeInteract().up();}
-            if(args.option === 'down') { new DockerComposeInteract().down();}
-            if(args.option === 'exec') { 
-                args._.shift();
-                console.log(args._);
-
-                new DockerComposeInteract().exec(args._.join(' '));
-            }
-        },
-    )
-
-    .command(
-      'hello [name]', 'welcome ter yargs!', 
-      (yargs) => {
-      yargs.positional('name', {
-      type: 'string',
-      default: 'Cambi',
-      describe: 'the name to say hello to'
-      });
-      }, 
-      (argv) => {
-      console.log('hello', argv.name, 'welcome to yargs!')
-      }
-)
-.help()
-.argv
+    // .command(
+    //   'hello [name]', 'welcome ter yargs!', 
+    //   (yargs) => {
+    //   yargs.positional('name', {
+    //   type: 'string',
+    //   default: 'Cambi',
+    //   describe: 'the name to say hello to'
+    //   });
+    //   }, 
+    //   (argv) => {
+    //   console.log('hello', argv.name, 'welcome to yargs!')
+    //   }
+    // )

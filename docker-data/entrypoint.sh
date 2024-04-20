@@ -5,7 +5,7 @@
 echo "--starting supervisor--"
 # service supervisor start
 cd ..
-/usr/bin/supervisord -c /etc/supervisor/conf.d/laravel-worker.conf
+/usr/bin/supervisord -c /etc/supervisor/conf.d/viktor.conf
 cd /app 
 echo "--starting supervisor--"
 

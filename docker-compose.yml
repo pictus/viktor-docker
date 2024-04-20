@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  server:
+    dns: 8.8.8.8
+    container_name: "frankenserver"
+    tty: true
+    build:
+      dockerfile: "${VIKTOR_DOCKERFILE-./.viktor/viktor/Dockerfile.server}"
+      context: ${APP_DIR-../../}
+      args:
+        VIKTOR_ROOT: ${VIKTOR_ROOT-./.viktor/viktor/}
+
+        SERV_NAME: ${SERVER_NAME-localhost}
+        MERCURE_PUBLISHER_KEY: ${MERCURE_KEY-""}
+        MERCURE_SUBSCRIBER_KEY: ${MERCURE_KEY-""}
+        INSTALL_MERCURE: ${MERCURE_ENABLE-0}
+    ports:
+      - "8080:80"
+      - "4443:443"
+      - "4443:443/udp"
+      - "3000:3000"
+    volumes:
+      - "${APP_DIR-../../}:/app/"

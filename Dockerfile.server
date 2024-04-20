@@ -21,13 +21,19 @@ RUN install-php-extensions \
     zip \
     opcache
 
-RUN mkdir -p /temp_data/
+RUN mkdir -p /container_data
 
-ARG DC_VIKTOR_ROOT
+ARG VIKTOR_ROOT
+RUN ls && ls 
+COPY ${VIKTOR_ROOT}/docker-data /container_data/ 
 
-COPY ${DC_VIKTOR_ROOT}data/php.ini /php-project.ini
+#
+# Setup PHP
+# copy over the needed php.ini from original server 
+# and move the custom to the correct position
+#
 RUN cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
-RUN mv /php-project.ini $PHP_INI_DIR/conf.d/project-php.ini
+RUN mv /container_data/php.ini $PHP_INI_DIR/conf.d/project-php.ini
 
 #
 # Setup Caddy
@@ -45,11 +51,8 @@ ARG MERCURE_SUBSCRIBER_KEY
 ENV MERCURE_PUBLISHER_JWT_KEY=${MERCURE_PUBLISHER_KEY}
 ENV MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_SUBSCRIBER_KEY}
 
-COPY ${DC_VIKTOR_ROOT}data/Caddyfile /etc/caddy/Caddyfile
-
-COPY ${DC_VIKTOR_ROOT}data/Caddyfile /temp_data/
 RUN if [ "$DC_INSTALL_MERCURE" = "1" ]; then \
-    cp /temp_data/Caddyfile /etc/caddy/Caddyfile \
+    cp /container_data/Caddyfile /etc/caddy/Caddyfile \
 ;fi
 
 #
@@ -62,9 +65,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     mv composer.phar /usr/local/bin/composer
 
 RUN ls && ls && ls && pwd && ls && pwd
-COPY ${DC_VIKTOR_ROOT}data/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
-COPY ${DC_VIKTOR_ROOT}entry.sh /entry.sh
+
 # workermode: for sometime later
 # ENV FRANKENPHP_CONFIG="worker /app/public/index.php"
 # ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
-ENTRYPOINT ["../entry.sh", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+ENTRYPOINT ["/container_data/entrypoint.sh", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]

@@ -7,7 +7,7 @@ const randomKey = (length) => crypto.randomBytes(Math.ceil(length / 2)).toString
 export const setupQuestions1 = [
     {
         type: 'input',
-        name: 'DC_VIKTOR_ROOT',
+        name: 'VIKTOR_ROOT',
         message: 'viktor directory relative to your app root path',
         default: defaultConfig.DC_VICTOR_ROOT,
 
@@ -21,9 +21,9 @@ export const setupQuestions1 = [
 export const setupQuestions = [
     {
         type: 'input',
-        name: 'DC_VIKTOR_ROOT',
+        name: 'VIKTOR_ROOT',
         message: 'viktor directory relative to your app root path',
-        default: defaultConfig.DC_VICTOR_ROOT,
+        default: defaultConfig.VICTOR_ROOT,
 
         validate() {
             // check if directory exists
@@ -32,9 +32,9 @@ export const setupQuestions = [
     },
     {
         type: 'input',
-        name: 'DC_APP_DIR',
+        name: 'APP_DIR',
         message: 'your app root directory relative to viktor path',
-        default: defaultConfig.DC_APP_DIR,
+        default: defaultConfig.APP_DIR,
 
         when(answers) {
             return answers.DC_VIKTOR_ROOT !== defaultConfig.DC_VICTOR_ROOT
@@ -46,9 +46,9 @@ export const setupQuestions = [
     },
     {
         type: 'input',
-        name: 'DC_DOCKERFILE',
+        name: 'DOCKERFILE',
         message: 'docker-compose file relative to your project root path',
-        default: defaultConfig.DC_DOCKERFILE,
+        default: defaultConfig.DOCKERFILE,
         validate() {
             // check if file exists
             return true;
@@ -56,18 +56,18 @@ export const setupQuestions = [
     },
     {
         type: 'input',
-        name: 'DC_CONTAINER',
+        name: 'CONTAINER',
         message: 'frankenphp container name, to access via cli',
-        default: defaultConfig.DC_CONTAINER
+        default: defaultConfig.CONTAINER
     },
     promptObject(
         'INT_PORTS', 
-        `Are these Ports Ok? http: ${defaultConfig.DC_SERVER_PORT_UNSECURE}, https: ${defaultConfig.DC_SERVER_PORT_SECURE}`
+        `Are these Ports Ok? http: ${defaultConfig.SERVER_PORT_UNSECURE}, https: ${defaultConfig.SERVER_PORT_SECURE}`
     ),
     /* only INI_PORTS: false*/ {
         type: 'number',
-        name: 'DC_SERVER_PORT_UNSECURE',
-        default: defaultConfig.DC_SERVER_PORT_UNSECURE,
+        name: 'SERVER_PORT_UNSECURE',
+        default: defaultConfig.SERVER_PORT_UNSECURE,
         message: 'Port unsecure (http)',
         when(answers) {
             return answers.INT_PORTS === false;
@@ -75,8 +75,8 @@ export const setupQuestions = [
     },
     /* only INI_PORTS: false*/ {
         type: 'number',
-        name: 'DC_SERVER_PORT_SECURE',
-        default: defaultConfig.DC_SERVER_PORT_SECURE,
+        name: 'SERVER_PORT_SECURE',
+        default: defaultConfig.SERVER_PORT_SECURE,
         message: 'Port secure (https)',
         when(answers) {
             return answers.INT_PORTS === false;
@@ -84,17 +84,17 @@ export const setupQuestions = [
     },
     {
         type: 'input',
-        name: 'DC_SERVER_NAME',
-        default: defaultConfig.DC_SERVER_NAME,
+        name: 'SERVER_NAME',
+        default: defaultConfig.SERVER_NAME,
         message: 'Servername',
     },
     {
         type: 'input',
-        name: 'DC_MERCURE_PUBLISHER_JWT_KEY',
+        name: 'MERCURE_PUBLISHER_JWT_KEY',
         default: randomKey(32),
         message: 'Mercure JWT Keys',
         when(answers) {
-            return answers.DC_INSTALL_MERCURE === 1;
+            return answers.INSTALL_MERCURE === 1;
         }
     }
 ];
