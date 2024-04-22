@@ -1,12 +1,13 @@
 version: "3"
 
+name: ${APP_NAME-"viktor-project"}
+
 services:
   server:
     dns: 8.8.8.8
-    container_name: "frankenserver"
+    container_name: ${APP_NAME-"viktor-project"}
     tty: true
     build:
-      container_name: ${APP_NAME-"viktor-project"}
       dockerfile: "${VIKTOR_DOCKERFILE-./.viktor/viktor/Dockerfile.server}"
       context: ${APP_DIR-../../}
       args:
