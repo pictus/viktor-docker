@@ -7,9 +7,15 @@ const randomKey = (length) => crypto.randomBytes(Math.ceil(length / 2)).toString
 export const setupQuestions1 = [
     {
         type: 'input',
+        name: 'APP_NAME',
+        message: 'your app name',
+        default: defaultConfig.APP_NAME
+    },
+    {
+        type: 'input',
         name: 'VIKTOR_ROOT',
         message: 'viktor directory relative to your app root path',
-        default: defaultConfig.DC_VICTOR_ROOT,
+        default: defaultConfig.VICTOR_ROOT,
 
         validate() {
             // check if directory exists
@@ -19,6 +25,12 @@ export const setupQuestions1 = [
 ];
 
 export const setupQuestions = [
+    {
+        type: 'input',
+        name: 'APP_NAME',
+        message: 'your app name',
+        default: defaultConfig.APP_NAME
+    },
     {
         type: 'input',
         name: 'VIKTOR_ROOT',

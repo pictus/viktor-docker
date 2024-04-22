@@ -1,4 +1,8 @@
 FROM dunglas/frankenphp
+# FROM dunglas/frankenphp-latest
+# FROM dunglas/frankenphp-1.1
+# https://hub.docker.com/r/dunglas/frankenphp/tags
+
 
 ARG SERV_NAME
 

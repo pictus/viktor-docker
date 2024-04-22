@@ -6,6 +6,7 @@ services:
     container_name: "frankenserver"
     tty: true
     build:
+      container_name: ${APP_NAME-"viktor-project"}
       dockerfile: "${VIKTOR_DOCKERFILE-./.viktor/viktor/Dockerfile.server}"
       context: ${APP_DIR-../../}
       args:

@@ -1,4 +1,5 @@
 export const defaultConfig = {
+    APP_NAME: 'my-viktor-project',
     VICTOR_ROOT: './.viktor/',
     DOCKERFILE: './viktor/data/docker-compose.yml',
     CONTAINER: 'server',
