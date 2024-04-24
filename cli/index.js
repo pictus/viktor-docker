@@ -1,6 +1,5 @@
 import yargs from 'yargs/yargs';
 import inquirer from 'inquirer';
-import { setupGuide, writeSetupEnviromentFile, parseConfigToEnv, runSetup } from './src/setup/setupGuide.js'
 import { confirmPrompt } from './src/prompt/utils.js';
 import { DockerComposeInteract } from './src/docker/interact.js';
 import dotenv from "dotenv";
@@ -8,6 +7,7 @@ import fs from "fs";
 import { UpCommand } from './src/addons/docker/UpCommand.js';
 import { DownCommand } from './src/addons/docker/DownCommand.js';
 import { ExecCommand } from './src/addons/docker/ExecCommand.js';
+import { InitCommand } from './src/addons/init/SetupCommand.js';
 
 // process.env, 
 /*
@@ -128,6 +128,7 @@ const questions = [
 ];
 
 const plugins = [
+  new InitCommand(),
   new UpCommand(),
   new DownCommand(),
   new ExecCommand(),
