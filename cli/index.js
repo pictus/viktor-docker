@@ -8,6 +8,7 @@ import { UpCommand } from './src/addons/docker/UpCommand.js';
 import { DownCommand } from './src/addons/docker/DownCommand.js';
 import { ExecCommand } from './src/addons/docker/ExecCommand.js';
 import { InitCommand } from './src/addons/init/SetupCommand.js';
+import { LaravelCommand } from './src/addons/laravel/LaravelCommand.js';
 
 // process.env, 
 /*
@@ -132,6 +133,7 @@ const plugins = [
   new UpCommand(),
   new DownCommand(),
   new ExecCommand(),
+  new LaravelCommand(),
 ];
 
 const commands = yargs(process.argv.slice(2))
