@@ -3,10 +3,7 @@ FROM dunglas/frankenphp
 # FROM dunglas/frankenphp-1.1
 # https://hub.docker.com/r/dunglas/frankenphp/tags
 
-
 ARG SERV_NAME
-
-
 ENV SERVER_NAME=${SERV_NAME}
 
 # 
@@ -28,7 +25,6 @@ RUN install-php-extensions \
 RUN mkdir -p /container_data
 
 ARG VIKTOR_ROOT
-RUN ls && ls 
 COPY ${VIKTOR_ROOT}/docker-data /container_data/ 
 
 #
@@ -47,15 +43,15 @@ RUN mv /container_data/php.ini $PHP_INI_DIR/conf.d/project-php.ini
 # need to check from time to time, if something changes
 # maybe find a better solution
 #
-ARG DC_INSTALL_MERCURE
+ARG MERCURE_ENABLE
 
 ARG MERCURE_PUBLISHER_KEY
 ARG MERCURE_SUBSCRIBER_KEY
 
-ENV MERCURE_PUBLISHER_JWT_KEY=${MERCURE_PUBLISHER_KEY}
-ENV MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_SUBSCRIBER_KEY}
+ENV MERCURE_PUBLISHER_JWT_KEY=${MERCURE_KEY}
+ENV MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_KEY}
 
-RUN if [ "$DC_INSTALL_MERCURE" = "1" ]; then \
+RUN if [ "$MERCURE_ENABLE" = "1" ]; then \
     cp /container_data/Caddyfile /etc/caddy/Caddyfile \
 ;fi
 
@@ -68,9 +64,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/local/bin/composer
 
-RUN ls && ls && ls && pwd && ls && pwd
-
-# workermode: for sometime later
+# workermode: still in testing
 # ENV FRANKENPHP_CONFIG="worker /app/public/index.php"
-# ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
 ENTRYPOINT ["/container_data/entrypoint.sh", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]

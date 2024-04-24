@@ -12,11 +12,9 @@ services:
       context: ${APP_DIR-../../}
       args:
         VIKTOR_ROOT: ${VIKTOR_ROOT-./.viktor/viktor/}
-
         SERV_NAME: ${SERVER_NAME-localhost}
-        MERCURE_PUBLISHER_KEY: ${MERCURE_KEY-""}
-        MERCURE_SUBSCRIBER_KEY: ${MERCURE_KEY-""}
-        INSTALL_MERCURE: ${MERCURE_ENABLE-0}
+        MERCURE_KEY: ${MERCURE_JWT_KEY-""}
+        MERCURE_ENABLE: ${MERCURE_ENABLE-0}
     ports:
       - "8080:80"
       - "4443:443"
