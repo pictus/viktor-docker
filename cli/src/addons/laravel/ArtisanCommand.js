@@ -1,9 +1,9 @@
 import { CliOption } from '../../cli/CliOption.js';
-import { DockerComposeInteract } from '../../docker/interact.js';
+import { DockerComposeInteract } from '../../docker/DockerComposeInteract.js';
 import fs from "fs";
 
 export class ArtisanCommand extends CliOption {
-    title = 'artisan [command]';
+    title = 'artisan';
     description = 'use laravels artisan';
     
     async handler(args) {

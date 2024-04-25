@@ -4,7 +4,7 @@ import { setupQuestions, setupQuestions1 } from './setupQuestions.js';
 import fs from 'fs';
 import { confirmPrompt } from '../prompt/utils.js'
 import { PROJECT_DIR_NAME } from '../enviroment.js';
-import { tty } from '../docker/interact.js';
+import { tty } from '../docker/DockerComposeInteract.js';
 
 // export async function setupGuide() {
 //     return await inquirer.prompt(setupQuestions1);

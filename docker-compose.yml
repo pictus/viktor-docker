@@ -8,7 +8,7 @@ services:
     container_name: ${APP_NAME-"viktor-project"}
     tty: true
     build:
-      dockerfile: "${VIKTOR_DOCKERFILE-./.viktor/viktor/Dockerfile.server}"
+      dockerfile: "${VIKTOR_DOCKER-./.viktor/viktor/Dockerfile.server}"
       context: ${APP_DIR-../../}
       args:
         VIKTOR_ROOT: ${VIKTOR_ROOT-./.viktor/viktor/}

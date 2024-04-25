@@ -1,5 +1,5 @@
 import { PROJECT_DIR_NAME } from '../../enviroment.js';
-import { tty } from '../../docker/interact.js';
+import { tty } from '../../docker/DockerComposeInteract.js';
 import fs from "fs";
 
 export function parseConfigToEnv(config) {
@@ -20,7 +20,6 @@ export function writeSetupEnviromentFile(config, path) {
 }
 
 export function setupProjectFiles(enviroment) {
-    console.log(enviroment);
     fs.mkdirSync(PROJECT_DIR_NAME);
     fs.mkdirSync(PROJECT_DIR_NAME + '/addons');
     writeSetupEnviromentFile(enviroment, PROJECT_DIR_NAME + '/.env');

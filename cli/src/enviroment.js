@@ -1,7 +1,15 @@
+import dotenv from "dotenv";
+import path from 'path';
+
+export const PROJECT_DIR_NAME='.viktor'
+
+dotenv.config({ path: path.join(`./${PROJECT_DIR_NAME}/.env`) });
+
 export const defaultConfig = {
     APP_NAME: 'viktor-project',
     VICTOR_ROOT: './.viktor/viktor/',
-    DOCKERFILE: './viktor/viktor/data/docker-compose.yml',
+    VIKTOR_DOCKER_COMPOSE: './viktor/viktor/data/docker-compose.yml',
+    VIKTOR_DOCKER: './.viktor/viktor/Dockerfile.server',
     CONTAINER: 'server',
     SERVER_PORT_UNSECURE: 8080,
     SERVER_PORT_SECURE: 4443,
@@ -11,4 +19,14 @@ export const defaultConfig = {
     // for internal usage in the prompts    
     INT_PORTS: true,
 };
-export const PROJECT_DIR_NAME='.viktor'
+
+export const APP_NAME = process.env.APP_NAME ?? defaultConfig.APP_NAME;
+export const VICTOR_ROOT = process.env.VICTOR_ROOT ?? defaultConfig.VICTOR_ROOT;
+export const VIKTOR_DOCKER_COMPOSE = process.env.VIKTOR_DOCKER_COMPOSE ?? defaultConfig.VIKTOR_DOCKER_COMPOSE;
+export const VIKTOR_DOCKER = process.env.VIKTOR_DOCKER ?? defaultConfig.VIKTOR_DOCKER;
+export const CONTAINER = process.env.CONTAINER ?? defaultConfig.CONTAINER;
+export const SERVER_PORT_UNSECURE = process.env.SERVER_PORT_UNSECURE ?? defaultConfig.SERVER_PORT_UNSECURE;
+export const SERVER_PORT_SECURE = process.env.SERVER_PORT_SECURE ?? defaultConfig.SERVER_PORT_SECURE;
+export const SERVER_NAME = process.env.SERVER_NAME ?? defaultConfig.SERVER_NAME;
+export const MERCURE_ENABLE = process.env.MERCURE_ENABLE ?? defaultConfig.MERCURE_ENABLE;
+export const MERCURE_JWT_KEY = process.env.MERCURE_JWT_KEY ?? defaultConfig.MERCURE_JWT_KEY;

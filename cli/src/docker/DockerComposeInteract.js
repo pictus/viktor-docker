@@ -1,5 +1,4 @@
 import { spawn } from 'child_process'
-import {exec} from 'node:child_process'
 import { PROJECT_DIR_NAME } from '../enviroment.js';
 
 export function tty(command) {
@@ -23,25 +22,16 @@ export function tty(command) {
 export class DockerComposeInteract {
     
     interact(containerCommand) {
-        // todo: file from .env
-        // flip args, maybe make a "build command" function
-        console.log('container command:', containerCommand);
-
         return tty(`\
             docker compose -f \
             ./${PROJECT_DIR_NAME}/viktor/docker-compose.yml ${containerCommand}
         `)
     }
 
-    rawArgs(findString) {
-        const dockerArgs = [...process.argv];
-        dockerArgs.splice(0, process.argv.findIndex(a => a === findString) + 1);
-        return dockerArgs;
-    }
     /** up, down and exec can go to the command also the parsing of input */
-    up(args) {
-        this.interact("up " + this.rawArgs('up').join(' '));
-    }
+    // up(args) {
+    //     this.interact("up " + this.rawArgs('up').join(' '));
+    // }
 
     down(args) {
         this.interact('down');

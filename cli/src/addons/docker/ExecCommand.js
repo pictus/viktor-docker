@@ -1,11 +1,11 @@
 import { CliOption } from "../../cli/CliOption.js";
-import { DockerComposeInteract } from "../../docker/interact.js";
+import { DockerComposeInteract } from "../../docker/DockerComposeInteract.js";
 
 export class ExecCommand extends CliOption {
-    title = 'exec [options]';
+    title = 'exec';
     description = 'exec container';
     
     handler(args) {
-        new DockerComposeInteract().exec(args);
+        new DockerComposeInteract().execRaw(this.rawArgs('exec').join(' '));
     }
 }

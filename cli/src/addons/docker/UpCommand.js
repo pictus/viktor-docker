@@ -1,13 +1,13 @@
 import { CliOption } from "../../cli/CliOption.js";
-import { DockerComposeInteract } from "../../docker/interact.js";
+import { DockerComposeInteract } from "../../docker/DockerComposeInteract.js";
+import { APP_NAME, VIKTOR_DOCKER_COMPOSE } from "../../enviroment.js";
 
 export class UpCommand extends CliOption {
-    title = 'up [options]';
+    title = 'up';
     description = 'start the container';
     
     handler(args) {
-        console.log('run handler...');
-
-        new DockerComposeInteract().up(args);
+        console.log(`\nStarting ${APP_NAME} Container \nfrom: ${VIKTOR_DOCKER_COMPOSE}`)
+        new DockerComposeInteract().interact("up " + this.rawArgs('up').join(' '));
     }
 }

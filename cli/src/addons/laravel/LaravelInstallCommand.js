@@ -1,11 +1,11 @@
 import { CliOption } from '../../cli/CliOption.js';
-import { DockerComposeInteract } from '../../docker/interact.js';
+import { DockerComposeInteract } from '../../docker/DockerComposeInteract.js';
 import fs from "fs";
 
-export class LaravelCommand extends CliOption {
-    title = 'laravel';
-    description = 'install and work with laravel';
-    
+export class LaravelInstallCommand extends CliOption {
+    title = 'laravel:install';
+    description = 'install latest laravel';
+
     async handler(args) {
         const otherFiles = fs.readdirSync('.').filter(file => {
             return file != '.viktor' 
@@ -21,8 +21,10 @@ export class LaravelCommand extends CliOption {
         const docker = new DockerComposeInteract();
         await docker.execRaw(`\
             composer create-project --prefer-dist laravel/laravel laravel && \
-            cp -ra laravel/. .
+            cp -r laravel/. . && \
+            rm -rf laravel
         `)
-        await docker.execRaw(`php artisan key:generate`)
+        await docker.execRaw(`php artisan key:generate`);
+        await docker.execRaw(`composer require barryvdh/laravel-debugbar --dev`)
     }
 }
