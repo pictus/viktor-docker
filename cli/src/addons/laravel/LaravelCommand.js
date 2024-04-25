@@ -8,7 +8,9 @@ export class LaravelCommand extends CliOption {
     
     async handler(args) {
         const otherFiles = fs.readdirSync('.').filter(file => {
-            return file != '.viktor' && file != 'patch-directory.sh'
+            return file != '.viktor' 
+                    && file != 'patch-directory.sh'
+                    && file != '.DS_Store'
         });
 
         if(otherFiles.length > 0) {
