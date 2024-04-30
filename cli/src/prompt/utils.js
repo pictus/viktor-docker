@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 
-export function promptObject(name, message, defaultSetting = 'yes') {
+export function promptObject(name, message, defaultSetting = 'yes', asNumber = false) {
     return {
         type: 'list',
         name,
@@ -8,6 +8,9 @@ export function promptObject(name, message, defaultSetting = 'yes') {
         choices: ['yes', 'no'],
         message: message,
         filter(val) {
+            if(asNumber) {
+                return val === 'yes' ? 1 : 0;
+            }
             return val === 'yes'; 
         }
     }

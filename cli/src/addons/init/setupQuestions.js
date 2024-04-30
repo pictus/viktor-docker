@@ -54,7 +54,7 @@ export const setupQuestions = [
     // },
     promptObject(
         'INT_PORTS', 
-        `Are these Ports Ok? http: ${defaultConfig.SERVER_PORT_UNSECURE}, https: ${defaultConfig.SERVER_PORT_SECURE}`
+        `Are these Ports Ok? http: ${defaultConfig.SERVER_PORT_UNSECURE}, https: ${defaultConfig.SERVER_PORT_SECURE}`,
     ),
     /* only INI_PORTS: false*/ {
         type: 'number',
@@ -82,7 +82,9 @@ export const setupQuestions = [
     // },
     promptObject(
         'MERCURE_ENABLE', 
-        `Do you want to enable Mercure?`
+        `Do you want to enable Mercure?`,
+        'yes',
+        true
     ),
     /* only when MERCURE_ENABLE: true */{
         type: 'input',
@@ -90,7 +92,7 @@ export const setupQuestions = [
         default: randomKey(32),
         message: 'Mercure JWT Keys',
         when(answers) {
-            return answers.MERCURE_ENABLE === true;
+            return answers.MERCURE_ENABLE === 1;
         }
     }
 ];

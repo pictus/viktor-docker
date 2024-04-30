@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-import { PROJECT_DIR_NAME } from '../enviroment.js';
+import { VIKTOR_DOCKER_COMPOSE } from '../enviroment.js';
 
 export function tty(command) {
     return new Promise((resolve, reject) => {
@@ -24,7 +24,7 @@ export class DockerComposeInteract {
     interact(containerCommand) {
         return tty(`\
             docker compose -f \
-            ./${PROJECT_DIR_NAME}/viktor/docker-compose.yml ${containerCommand}
+            ./${VIKTOR_DOCKER_COMPOSE} ${containerCommand}
         `)
     }
 

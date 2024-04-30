@@ -8,7 +8,7 @@ export class ArtisanCommand extends CliOption {
     
     async handler(args) {
         const docker = new DockerComposeInteract();
-        const commandArgs = docker.rawArgs('artisan');
+        const commandArgs = this.rawArgs('artisan');
         
         await docker.execRaw(`\
             php artisan ${commandArgs.join(' ')}

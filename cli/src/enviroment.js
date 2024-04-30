@@ -7,8 +7,8 @@ dotenv.config({ path: path.join(`./${PROJECT_DIR_NAME}/.env`) });
 
 export const defaultConfig = {
     APP_NAME: 'viktor-project',
-    VICTOR_ROOT: './.viktor/viktor/',
-    VIKTOR_DOCKER_COMPOSE: './viktor/viktor/data/docker-compose.yml',
+    VIKTOR_ROOT: './.viktor/viktor/',
+    VIKTOR_DOCKER_COMPOSE: './.viktor/viktor/docker-compose.yml',
     VIKTOR_DOCKER: './.viktor/viktor/Dockerfile.server',
     CONTAINER: 'server',
     SERVER_PORT_UNSECURE: 8080,
