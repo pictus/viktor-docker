@@ -21,7 +21,7 @@ export class ArtisanCommand extends CliOption {
         // .example('viktor artisan make:model FooBar', 'to create an Model')
         // .epilogue('default epiloque');
 
-        return commands;
+        // return commands;
     }
 
     async handler(args) {
