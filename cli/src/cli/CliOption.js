@@ -2,8 +2,10 @@ export class CliOption {
     title = 'default-cli';
     description = 'defualt-cli description';
     alias = [];
-    builderCallback(yargs) {}
+    builderCallback(yargs, helpOrVersionSet) {}
     handler(args) {}
+    middlewares(argv) { return []; }
+    deprecated = false;
 
     rawArgs(findString) {
         const dockerArgs = [...process.argv];

@@ -2,7 +2,7 @@ import { CliOption } from "../../cli/CliOption.js";
 import { DockerComposeInteract } from "../../docker/DockerComposeInteract.js";
 
 export class LaravelExamplePlugin extends CliOption {
-    title = 'laravel:install-example-plugin';
+    title = 'laravel:install-example';
     description = 'install example plugin for mercure integration';
     
     async handler(args) {

@@ -1,3 +1,4 @@
+import _ from './src/bootstrap.js'
 import yargs from 'yargs';
 import { UpCommand } from './src/addons/docker/UpCommand.js';
 import { DownCommand } from './src/addons/docker/DownCommand.js';
@@ -9,6 +10,7 @@ import { LaravelSetupBroadcast } from './src/addons/laravel/LaravelSetupBroadcas
 import { ComposerCommand } from './src/addons/php/ComposerCommand.js';
 import { PhpCommand } from './src/addons/php/PhpCommand.js';
 import { LaravelExamplePlugin } from './src/addons/laravel/LaravelExamplePluginCommand.js';
+import { DockerComposeInteract } from './src/docker/DockerComposeInteract.js';
 
 const plugins = [
   new InitCommand(),
@@ -24,21 +26,43 @@ const plugins = [
   new ArtisanCommand(),
 ];
 
-const commands = yargs(process.argv.slice(2))
-    .scriptName('viktor')
-    .usage('$0 <cmd> [args]');
+const commands = yargs(process.argv.slice(2));
+commands.scriptName('viktor')
+    .usage('$0 <cmd> [args]')
+    .help()
+    .showHelpOnFail(true)
+    .help(
+      // 'help',
+      // 'Show usage instructions.'
+    ).wrap(Math.min(120, commands.terminalWidth()))
+
+    
+    // .command('*', )
 
 plugins.forEach((plugin) => {
+  /*
+    command: string | readonly string[],
+    description: string,
+    builder?: BuilderCallback<T, U>,
+    handler?: (args: ArgumentsCamelCase<U>) => void | Promise<void>,
+    middlewares?: Array<MiddlewareFunction<U>>,
+    deprecated?: boolean | string,
+  */
+
   commands.command(
     plugin.title,
     plugin.description,
     (yargs) => { plugin.builderCallback(yargs) },
-    async (argv) => { plugin.handler(argv) }
-  )
+    async (argv) => { plugin.handler(argv) },
+    plugin.middlewares(),
+    plugin.deprecated
+  );
+  // todo .zshrc completitions
+  // with `.completition()`
 })
 
-commands.help().parse()
-commands.argv
+// commands.parse();
+commands.demandCommand().argv
 
 
     // .command(

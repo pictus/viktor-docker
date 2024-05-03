@@ -1,9 +1,5 @@
-import dotenv from "dotenv";
-import path from 'path';
-
+// note: please see `./bootstrap.js`
 export const PROJECT_DIR_NAME='.viktor'
-
-dotenv.config({ path: path.join(`./${PROJECT_DIR_NAME}/.env`) });
 
 export const defaultConfig = {
     APP_NAME: 'viktor-project',
@@ -21,7 +17,7 @@ export const defaultConfig = {
 };
 
 export const APP_NAME = process.env.APP_NAME ?? defaultConfig.APP_NAME;
-export const VICTOR_ROOT = process.env.VICTOR_ROOT ?? defaultConfig.VICTOR_ROOT;
+export const VIKTOR_ROOT = process.env.VIKTOR_ROOT ?? defaultConfig.VIKTOR_ROOT;
 export const VIKTOR_DOCKER_COMPOSE = process.env.VIKTOR_DOCKER_COMPOSE ?? defaultConfig.VIKTOR_DOCKER_COMPOSE;
 export const VIKTOR_DOCKER = process.env.VIKTOR_DOCKER ?? defaultConfig.VIKTOR_DOCKER;
 export const CONTAINER = process.env.CONTAINER ?? defaultConfig.CONTAINER;
