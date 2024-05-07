@@ -1,30 +1,16 @@
 FROM dunglas/frankenphp
+# FROM dunglas/frankenphp-latest
+# FROM dunglas/frankenphp-1.1
+# https://hub.docker.com/r/dunglas/frankenphp/tags
 
-# Install Laravel: 1 for yes
-# ARG INSTALL_LARAVEL
 ARG SERV_NAME
-
-ARG MERCURE_PUBLISHER_KEY
-ARG MERCURE_SUBSCRIBER_KEY
-ENV MERCURE_PUBLISHER_JWT_KEY=${MERCURE_PUBLISHER_KEY}
-ENV MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_SUBSCRIBER_KEY}
-
 ENV SERVER_NAME=${SERV_NAME}
 
 # 
 # Tools
 #
 RUN apt-get update && \
-    apt-get -y install git 7zip zip
-
-#
-# Setup Caddy
-#
-# requires: 
-# MERCURE_PUBLISHER_JWT_KEY
-# MERCURE_SUBSCRIBER_JWT_KEY
-#
-COPY ./data/Caddyfile /etc/caddy/Caddyfile
+    apt-get -y install git 7zip zip supervisor
 
 # 
 # Setup PHP
@@ -36,9 +22,36 @@ RUN install-php-extensions \
     zip \
     opcache
 
-COPY ./data/php.ini /php-project.ini
+RUN mkdir -p /container_data
+
+ARG VIKTOR_ROOT
+COPY ${VIKTOR_ROOT}/docker-data /container_data/ 
+
+#
+# Setup PHP
+# copy over the needed php.ini from original server 
+# and move the custom to the correct position
+#
 RUN cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
-RUN mv /php-project.ini $PHP_INI_DIR/conf.d/project-php.ini
+RUN mv /container_data/php.ini $PHP_INI_DIR/conf.d/project-php.ini
+
+#
+# Setup Caddy
+#
+# To make Mercure accessible we copy in a modified Caddyfile
+# this file is taken from dunglas/frankenphp image 
+# need to check from time to time, if something changes
+# maybe find a better solution
+#
+ARG MERCURE_ENABLE
+ARG MERCURE_KEY
+
+ENV MERCURE_PUBLISHER_JWT_KEY=${MERCURE_KEY}
+ENV MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_KEY}
+
+RUN if [ "$MERCURE_ENABLE" = "1" ]; then \
+    cp /container_data/Caddyfile /etc/caddy/Caddyfile \
+;fi
 
 #
 # composer
@@ -49,5 +62,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/local/bin/composer
 
-# workermode: for sometime later
+# workermode: still in testing
 # ENV FRANKENPHP_CONFIG="worker /app/public/index.php"
+
+ENTRYPOINT ["/container_data/entrypoint.sh", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]

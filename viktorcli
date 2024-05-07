@@ -1,0 +1,9 @@
+#/usr/bin/env bash
+
+# this runs as alias!
+
+echo "`dirname "$0"`"
+echo "`pwd "$0"`"
+echo "---"
+
+node "`dirname "$0"`/cli/index.js" $@

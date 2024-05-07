@@ -1,28 +1,24 @@
 version: "3"
 
+name: ${APP_NAME-"viktor-project"}
+
 services:
   server:
     dns: 8.8.8.8
-    container_name: "frankenserver"
+    container_name: ${APP_NAME-"viktor-project"}
     tty: true
     build:
-      dockerfile: "./Dockerfile.server"
-      context: "."
+      dockerfile: "${VIKTOR_DOCKER-./.viktor/viktor/Dockerfile.server}"
+      context: ${APP_DIR-../../}
       args:
-        SERV_NAME: ${DC_SERVER_NAME-localhost}
-        MERCURE_PUBLISHER_KEY: ${DC_MERCURE_PUBLISHER_JWT_KEY}
-        MERCURE_SUBSCRIBER_KEY: ${DC_MERCURE_SUBSCRIBER_JWT_KEY}
+        VIKTOR_ROOT: ${VIKTOR_ROOT-./.viktor/viktor/}
+        SERV_NAME: ${SERVER_NAME-localhost}
+        MERCURE_KEY: ${MERCURE_JWT_KEY-""}
+        MERCURE_ENABLE: ${MERCURE_ENABLE-0}
     ports:
       - "8080:80"
       - "4443:443"
       - "4443:443/udp"
       - "3000:3000"
     volumes:
-      - "${DC_APP_DIR-../}:/app/"
-
-# next: volumes global definieren
-# steht aber auch in der frankenPHP doc, unter production glaube
-# install nodeJS (latest)
-# make production enviroment 
-#  - (container setup, build npm) 
-# test and play with worker-mode (octane)
+      - "${APP_DIR-../../}:/app/"

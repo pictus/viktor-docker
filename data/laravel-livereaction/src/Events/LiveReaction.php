@@ -3,9 +3,9 @@
 namespace Pictus\LaravelLiveReaction\Events;
 
 use Duijker\LaravelMercureBroadcaster\Broadcasting\Channel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class LiveReaction implements ShouldBroadcast
+class LiveReaction implements ShouldBroadcastNow
 {
     public function __construct(
         public string $channel,

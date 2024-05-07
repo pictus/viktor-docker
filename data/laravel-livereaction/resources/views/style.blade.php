@@ -36,17 +36,7 @@ body {
     background: black;
 }
 
-.live-reaction {
-    display: flex;
-    padding: 1rem;
-}
-
-.live-reaction__reaction {
-    padding-right: 1rem;
-    position: relative;
-}
-
-.live-reaction__reaction .button {
+.button {
     -webkit-appearance: none;
     appearance: none;
     border: none;
@@ -56,8 +46,22 @@ body {
     cursor: pointer;
 }
 
-.live-reaction__reaction .button:hover {
+.button-alt {
+    background: var(--c-3);
+}
+
+.button:hover {
     background: var(--c-5);
+}
+
+.live-reaction {
+    display: flex;
+    padding: 1rem;
+}
+
+.live-reaction__reaction {
+    padding-right: 1rem;
+    position: relative;
 }
 
 .live-reaction__reaction .effect {
@@ -71,6 +75,16 @@ body {
     display: block;
     color: white;
     position: absolute;
+}
+
+.reaction__worker {
+    position: fixed;
+    top: 5rem;
+    left: 50%;
+    background: var(--c-4);
+    transform: translateX(-50%);
+    padding: .7rem;
+    border-radius: 10px;
 }
 
 @keyframes effect {
