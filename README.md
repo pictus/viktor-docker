@@ -1,5 +1,3 @@
-Hier ist die überarbeitete README in Englisch mit Emoticons:
-
 
 ## Viktor 
 Shortcut your containers
