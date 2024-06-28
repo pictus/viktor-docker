@@ -34,8 +34,6 @@ export class DockerComposeInteract {
     }
 
     interact(containerCommand, dataCallback) {
-        console.log('..interact', this.makeCommand(containerCommand));
-
         return tty(
             this.makeCommand(containerCommand), 
             dataCallback
