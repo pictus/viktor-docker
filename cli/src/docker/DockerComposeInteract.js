@@ -1,5 +1,6 @@
-import { spawn } from 'child_process'
-import { VIKTOR_DOCKER_COMPOSE } from '../enviroment.js';
+import { spawn } from 'child_process';
+import { CONTAINER } from '../enviroment.js';
+import { rawArgs } from '../prompt/utils.js';
 
 export function tty(command, dataCallback) {
     return new Promise((resolve, reject) => {
@@ -28,29 +29,32 @@ export function tty(command, dataCallback) {
 
 export class DockerComposeInteract {
     
-    interact(containerCommand, dataCallback) {
-        return tty(`\
-            docker compose -f \
-            ./${VIKTOR_DOCKER_COMPOSE} ${containerCommand}
-        `, dataCallback)
+    constructor(composeFilePath) {
+        this.composeFilePath = composeFilePath;
     }
 
-    /** up, down and exec can go to the command also the parsing of input */
-    // up(args) {
-    //     this.interact("up " + this.rawArgs('up').join(' '));
-    // }
+    interact(containerCommand, dataCallback) {
+        console.log('..interact', this.makeCommand(containerCommand));
 
-    // down(args) {
-    //     this.interact('down');
-    // }
+        return tty(
+            this.makeCommand(containerCommand), 
+            dataCallback
+        );
+    }
 
-    // exec(args) {
-    //     const shift = this.rawArgs('exec');
-    //     this.interact('exec server ' + this.rawArgs('exec').join(' '));
-    // }
+    makeCommand(containerCommand) {
+        return `docker compose -f ./${this.composeFilePath} ${containerCommand}`;
+    }
 
     execRaw(args, dataCallback) {
-        return this.interact(`exec server ${args}`, dataCallback);
+        let service = CONTAINER;
+        
+        const serviceArg = rawArgs('-s');
+        if(serviceArg.length > 0) {
+            service = serviceArg[0];
+        }        
+
+        return this.interact(`exec ${service} ${args}`, dataCallback);
     }
 
 }

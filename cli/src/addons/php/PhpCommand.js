@@ -1,14 +1,12 @@
 import { CliOption } from '../../cli/CliOption.js';
-import { DockerComposeInteract } from '../../docker/DockerComposeInteract.js';
-import fs from "fs";
-import { MERCURE_JWT_KEY } from '../../enviroment.js';
+import { defaultContainer } from '../../docker/defaultContainer.js';
 
 export class PhpCommand extends CliOption {
     title = 'php';
     description = `execute php`;
 
     async handler(args) {
-        const docker = new DockerComposeInteract().execRaw(
+        const docker = defaultContainer.execRaw(
             'php ' + this.rawArgs('php').join(' ')
         );
 

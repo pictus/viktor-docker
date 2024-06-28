@@ -1,6 +1,5 @@
 import { CliOption } from '../../cli/CliOption.js';
-import { DockerComposeInteract } from '../../docker/DockerComposeInteract.js';
-import fs from "fs";
+import { defaultContainer } from '../../docker/defaultContainer.js';
 import { MERCURE_JWT_KEY } from '../../enviroment.js';
 
 export class LaravelSetupBroadcast extends CliOption {
@@ -8,7 +7,7 @@ export class LaravelSetupBroadcast extends CliOption {
     description = `prepares laravel for mercure broadcasting`;
 
     async handler(args) {
-        const docker = new DockerComposeInteract();
+        const docker = defaultContainer;
 
         await docker.execRaw(`php artisan install:broadcasting`);
         await docker.execRaw(`composer require mvanduijker/laravel-mercure-broadcaster`);

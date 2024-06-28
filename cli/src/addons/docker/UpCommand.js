@@ -1,5 +1,5 @@
 import { CliOption } from "../../cli/CliOption.js";
-import { DockerComposeInteract } from "../../docker/DockerComposeInteract.js";
+import { defaultContainer } from "../../docker/defaultContainer.js";
 import { APP_NAME, VIKTOR_DOCKER_COMPOSE } from "../../enviroment.js";
 
 export class UpCommand extends CliOption {
@@ -8,6 +8,6 @@ export class UpCommand extends CliOption {
     
     handler(args) {
         console.log(`\nStarting ${APP_NAME} Container \nfrom: ${VIKTOR_DOCKER_COMPOSE}`)
-        new DockerComposeInteract().interact("up " + this.rawArgs('up').join(' '));
+        defaultContainer.interact("up " + this.rawArgs('up').join(' '));
     }
 }

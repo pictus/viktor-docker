@@ -23,8 +23,8 @@ services:
     volumes:
       - "${APP_DIR-../../}:/app/"
     networks:
-      - shared_network
+      - viktor-network
 
 networks:
-  shared_network:
+  viktor-network:
     external: true

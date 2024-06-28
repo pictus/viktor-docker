@@ -1,6 +1,6 @@
-import { CliOption } from '../../cli/CliOption.js';
-import { DockerComposeInteract } from '../../docker/DockerComposeInteract.js';
 import fs from "fs";
+import { CliOption } from '../../cli/CliOption.js';
+import { defaultContainer } from '../../docker/defaultContainer.js';
 
 export class LaravelInstallCommand extends CliOption {
     title = 'laravel:install';
@@ -18,7 +18,7 @@ export class LaravelInstallCommand extends CliOption {
             return;
         }
 
-        const docker = new DockerComposeInteract();
+        const docker = defaultContainer;
         await docker.execRaw(`\
             composer create-project --prefer-dist laravel/laravel laravel && \
             cp -r laravel/. . && \
