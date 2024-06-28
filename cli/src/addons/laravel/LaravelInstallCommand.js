@@ -14,7 +14,7 @@ export class LaravelInstallCommand extends CliOption {
         });
 
         if(otherFiles.length > 0) {
-            console.warn('your empty is not empty! Only `.viktor` directory is allowed');
+            console.warn('your root-directory is not empty! Only `.viktor` directory is allowed');
             return;
         }
 
