@@ -1,4 +1,6 @@
-// note: please see `./bootstrap.js`
+// import this to make sure
+// we are able to get process.env vars
+import './bootstrap.js';
 export const PROJECT_DIR_NAME='.viktor'
 
 export const defaultConfig = {

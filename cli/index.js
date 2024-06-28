@@ -9,6 +9,9 @@ import { LaravelInstallCommand } from './src/addons/laravel/LaravelInstallComman
 import { LaravelSetupBroadcast } from './src/addons/laravel/LaravelSetupBroadcastCommand.js';
 import { ComposerCommand } from './src/addons/php/ComposerCommand.js';
 import { PhpCommand } from './src/addons/php/PhpCommand.js';
+import { VIKTOR_DOCKER_COMPOSE } from './src/enviroment.js';
+// use this little ugly hack to make sure the enviroment.js is not removed
+const stay = VIKTOR_DOCKER_COMPOSE;
 
 const plugins = [
   new InitCommand(),
@@ -68,18 +71,3 @@ plugins.forEach((plugin) => {
 
 // commands.parse();
 commands.demandCommand().argv
-
-
-    // .command(
-    //   'hello [name]', 'welcome ter yargs!', 
-    //   (yargs) => {
-    //   yargs.positional('name', {
-    //   type: 'string',
-    //   default: 'Cambi',
-    //   describe: 'the name to say hello to'
-    //   });
-    //   }, 
-    //   (argv) => {
-    //   console.log('hello', argv.name, 'welcome to yargs!')
-    //   }
-    // )
