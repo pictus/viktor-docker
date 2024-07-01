@@ -48,6 +48,7 @@ export class DockerComposeInteract {
         let service = CONTAINER;
         
         const serviceArg = rawArgs('-s');
+        
         if(serviceArg.length > 0) {
             service = serviceArg[0];
         }        

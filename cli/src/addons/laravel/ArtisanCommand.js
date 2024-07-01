@@ -7,7 +7,6 @@ export class ArtisanCommand extends CliOption {
 
     async handler(args) {
         const commandArgs = this.rawArgs('artisan');
-        console.log('run artisan with', commandArgs);
         await defaultContainer.execRaw(`\
             php artisan ${commandArgs.join(' ')}
         `);

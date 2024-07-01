@@ -21,8 +21,20 @@ export async function confirmPrompt(message, defaultSetting = 'yes') {
     return prompt.confirmed;
 }
 
-export function rawArgs(findString) {
+export function rawArgs(findString, withFollowing = false) {
     const args = [...process.argv];
-    args.splice(0, process.argv.findIndex(a => a === findString) + 1);
-    return args;
+    let remember = undefined;
+
+    return args.map(((a, i) => {
+        if(remember !== undefined) {
+            if(!withFollowing) {
+                remember = undefined;
+            }
+            return a;
+        } 
+        
+        if(a === findString) { remember = i; }
+
+        return false;
+    })).filter(a => a);
 }
