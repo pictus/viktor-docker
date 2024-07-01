@@ -5,6 +5,7 @@ export const PROJECT_DIR_NAME='.viktor'
 
 export const defaultConfig = {
     APP_NAME: 'viktor-project',
+    APP_DIR: '../../',
     VIKTOR_ROOT: './.viktor/viktor/',
     VIKTOR_DOCKER_COMPOSE: './.viktor/viktor/docker-compose.yml',
     VIKTOR_DOCKER: './.viktor/viktor/Dockerfile.server',
@@ -19,6 +20,7 @@ export const defaultConfig = {
 };
 
 export const APP_NAME = process.env.APP_NAME ?? defaultConfig.APP_NAME;
+export const APP_DIR = process.env.APP_DIR ?? defaultConfig.APP_DIR;
 export const VIKTOR_ROOT = process.env.VIKTOR_ROOT ?? defaultConfig.VIKTOR_ROOT;
 export const VIKTOR_DOCKER_COMPOSE = process.env.VIKTOR_DOCKER_COMPOSE ?? defaultConfig.VIKTOR_DOCKER_COMPOSE;
 export const VIKTOR_DOCKER = process.env.VIKTOR_DOCKER ?? defaultConfig.VIKTOR_DOCKER;
