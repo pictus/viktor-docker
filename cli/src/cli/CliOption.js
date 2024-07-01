@@ -1,3 +1,5 @@
+import { rawArgs } from "../prompt/utils.js";
+
 export class CliOption {
     title = 'default-cli';
     description = 'defualt-cli description';
@@ -8,8 +10,6 @@ export class CliOption {
     deprecated = false;
 
     rawArgs(findString) {
-        const dockerArgs = [...process.argv];
-        dockerArgs.splice(0, process.argv.findIndex(a => a === findString) + 1);
-        return dockerArgs;
+        return rawArgs(findString);
     }
 }

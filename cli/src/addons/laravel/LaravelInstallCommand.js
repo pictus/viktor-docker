@@ -1,6 +1,6 @@
-import { CliOption } from '../../cli/CliOption.js';
-import { DockerComposeInteract } from '../../docker/DockerComposeInteract.js';
 import fs from "fs";
+import { CliOption } from '../../cli/CliOption.js';
+import { defaultContainer } from '../../docker/defaultContainer.js';
 
 export class LaravelInstallCommand extends CliOption {
     title = 'laravel:install';
@@ -14,11 +14,11 @@ export class LaravelInstallCommand extends CliOption {
         });
 
         if(otherFiles.length > 0) {
-            console.warn('your empty is not empty! Only `.viktor` directory is allowed');
+            console.warn('your root-directory is not empty! Only `.viktor` directory is allowed');
             return;
         }
 
-        const docker = new DockerComposeInteract();
+        const docker = defaultContainer;
         await docker.execRaw(`\
             composer create-project --prefer-dist laravel/laravel laravel && \
             cp -r laravel/. . && \
