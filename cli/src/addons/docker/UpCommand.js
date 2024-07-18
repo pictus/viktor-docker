@@ -7,7 +7,7 @@ export class UpCommand extends CliOption {
     description = 'start the container';
     
     handler(args) {
-        console.log(`\nStarting ${APP_NAME} Container \nfrom: ${VIKTOR_DOCKER_COMPOSE}`)
+        console.log(`\nStarting ${APP_NAME} Container \nfrom: ${VIKTOR_DOCKER_COMPOSE}`);
         defaultContainer.interact("up " + this.rawArgs('up').join(' '));
     }
 }

@@ -9,7 +9,7 @@ export class CliOption {
     middlewares(argv) { return []; }
     deprecated = false;
 
-    rawArgs(findString) {
-        return rawArgs(findString);
+    rawArgs(findString, withFollowing = true) {
+        return rawArgs(findString, withFollowing);
     }
 }
